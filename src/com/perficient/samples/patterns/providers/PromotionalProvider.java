@@ -4,19 +4,15 @@ import com.perficient.samples.patterns.services.PromoCodeService;
 
 public class PromotionalProvider extends Provider {
 
-	private float amount;
+	private float promoAmount;
 	private int promotionalCode;
+	PromoCodeService promoService=new PromoCodeService();
+	IProvider provider;
 	
-	public PromotionalProvider(IProviderRecharge recharge, int promotionalCode) {
-		super(recharge);
+	public PromotionalProvider(IProvider provider, int promotionalCode) {
+		super(provider.getRecharge());
+		this.provider=provider;
 		this.promotionalCode=promotionalCode;
-		PromoCodeService promoService=new PromoCodeService();
-		amount=promoService.getAmount(promotionalCode);
-	}
-
-	public float getAmount() {
-		
-		return amount;
 	}
 
 	public int getPromotionalCode() {
@@ -28,9 +24,12 @@ public class PromotionalProvider extends Provider {
 	}
 	
 	@Override
-	public boolean recharge(String cellNumber, float amount) {
-		System.out.println("Promotional recharge for code: " + promotionalCode + " for " + this.amount + " of free credit");
-		return super.recharge(cellNumber, this.amount);
+	public float recharge(String cellNumber, float amount) {
+		promoAmount=promoService.getAmount(promotionalCode);
+		System.out.println("Promotional recharge for code: " + promotionalCode + " for " + promoAmount + " of free credit");
+		float credit= provider.recharge(cellNumber, amount);
+		System.out.println("recharge to be paid by client: " + (credit-promoAmount));
+		return credit-promoAmount;
 	}
 	
 }

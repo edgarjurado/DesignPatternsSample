@@ -1,2 +1,8 @@
 /.project
 /.class
+.classpath
+*.class
+target/classes/META-INF/maven/DesignPatternsSample/DesignPatternsSample/pom.properties
+.settings/org.eclipse.jdt.apt.core.prefs
+.settings/org.eclipse.jdt.core.prefs
+.settings/org.eclipse.m2e.core.prefs

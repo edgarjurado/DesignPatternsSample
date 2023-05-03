@@ -9,15 +9,15 @@ public class AmericanCellRecharge implements IProviderRecharge {
 	}
 	
 	@Override
-	public boolean recharge(String cellNumber, float amount) {
+	public float recharge(String cellNumber, float amount) {
 		System.out.println("Adding " + amount + " of " + companyName + " credit to " + cellNumber);
-		return true;
+		return amount;
 	}
 
 	@Override
-	public boolean recordPayment(float amount, String cellNumber) {
+	public float recordPayment(float amount, String cellNumber) {
 		System.out.println("Payment received by " + companyName);
-		return true;
+		return amount;
 	}
 
 	@Override

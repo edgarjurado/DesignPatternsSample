@@ -4,14 +4,35 @@ import com.perficient.samples.patterns.configuration.Companies;
 import com.perficient.samples.patterns.providers.IProvider;
 import com.perficient.samples.patterns.providers.PromotionalProvider;
 import com.perficient.samples.patterns.providers.Provider;
+import com.perficient.samples.patterns.providers.RegisteredClientProvider;
 
 public class TopUpService implements ITopupService {
 
 	IProvider provider;
+	int code=-1;
+	int clientId=-1;
+	
 	
 	@Override
 	public IProvider getProvider() {
 		return provider;
+	}
+
+	@Override
+	public int getCode() {
+		return code;
+	}
+	@Override
+	public void setCode(int code) {
+		this.code = code;
+	}
+	@Override
+	public int getClientId() {
+		return clientId;
+	}
+	@Override
+	public void setClientId(int clientId) {
+		this.clientId = clientId;
 	}
 
 	private void recordRequest() {
@@ -20,16 +41,19 @@ public class TopUpService implements ITopupService {
 	
 	@Override
 	public boolean recharge(String cellNumber, float amount, String company) {
-		provider=new Provider(Companies.getProvider(company));
-		recordRequest();
-		return provider.recharge(cellNumber, amount);
-	}
-	
-	@Override
-	public boolean promotionalRecharge(String cellNumber, int code,  String company) {
 		
-		provider=new PromotionalProvider(Companies.getProvider(company), code);
+		provider=new Provider(Companies.getProvider(company));
+		if (code>-1) {
+			provider=new PromotionalProvider(provider, code);
+		}
+		
+		if (clientId>-1) {
+			provider=new RegisteredClientProvider(provider, clientId);
+		}
+
 		recordRequest();
-		return provider.recharge(cellNumber, 0);
+		float amountBilled=provider.recharge(cellNumber, amount);
+		return amountBilled>-1;
 	}
+		
 }

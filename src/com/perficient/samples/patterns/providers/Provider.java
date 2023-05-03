@@ -6,6 +6,8 @@ import com.perficient.samples.patterns.configuration.ConnectionProperties;
 
 public class Provider implements IProvider {
 	
+	
+
 	protected String companyName;
 	protected String otherProperties;
 	protected IProviderRecharge recharge;
@@ -13,6 +15,16 @@ public class Provider implements IProvider {
 	public Provider(IProviderRecharge recharge) {
 		this.recharge = recharge;
 		companyName=recharge.getCompanyName();
+	}
+	
+	@Override
+	public IProviderRecharge getRecharge() {
+		return recharge;
+	}
+
+	@Override
+	public void setRecharge(IProviderRecharge recharge) {
+		this.recharge = recharge;
 	}
 	
 	@Override
@@ -25,7 +37,7 @@ public class Provider implements IProvider {
 		this.otherProperties = otherProperties;
 	}
 	
-	protected boolean recordPayment(float amount, String cellNumber) {
+	public float recordPayment(float amount, String cellNumber) {
 		connectToProviderService();
 		return recharge.recordPayment(amount, cellNumber);
 	}
@@ -38,12 +50,9 @@ public class Provider implements IProvider {
 	}
 	
 	@Override
-	public boolean recharge(String cellNumber, float amount) {
-		boolean result=false;
-		if (recordPayment(amount, cellNumber)) {
-			result=recharge.recharge(cellNumber, amount);
-		}
-		return result;
+	public float recharge(String cellNumber, float amount) {
+		recordPayment(amount, cellNumber);
+		return recharge.recharge(cellNumber, amount);
 	}
 
 	@Override

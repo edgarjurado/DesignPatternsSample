@@ -8,6 +8,14 @@ public interface ITopupService {
 
 	boolean recharge(String cellNumber, float amount, String company);
 
-	boolean promotionalRecharge(String cellNumber, int code, String company);
+	void setClientId(int clientId);
+
+	int getClientId();
+
+	void setCode(int code);
+
+	int getCode();
+
+//	boolean promotionalRecharge(String cellNumber, String company, float amount);
 
 }

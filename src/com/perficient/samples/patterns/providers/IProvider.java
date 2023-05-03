@@ -8,6 +8,12 @@ public interface IProvider {
 
 	void setOtherProperties(String otherProperties);
 
-	boolean recharge(String cellNumber, float amount);
+	float recharge(String cellNumber, float amount);
+
+	IProviderRecharge getRecharge();
+
+	void setRecharge(IProviderRecharge recharge);
+
+	float recordPayment(float amount, String cellNumber);
 
 }
