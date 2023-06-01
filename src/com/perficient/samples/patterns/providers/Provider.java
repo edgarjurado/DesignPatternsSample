@@ -7,7 +7,6 @@ import com.perficient.samples.patterns.configuration.ConnectionProperties;
 public class Provider implements IProvider {
 	
 	
-
 	protected String companyName;
 	protected String otherProperties;
 	protected IProviderRecharge recharge;

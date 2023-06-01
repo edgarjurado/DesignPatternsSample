@@ -19,9 +19,9 @@ public class RegisteredClientProvider extends Provider {
 	
 	@Override
 	public float recharge(String cellNumber, float amount) {
-		credit=clientService.getCredit();
-		System.out.println("Promotional recharge for code: " + credit + " for " + credit + " of free credit");
-		System.out.println("recharge billed to client: " + (amount-credit));
+//		credit=clientService.getCredit();
+//		System.out.println("Credit  for code: " + credit + " for " + credit + " of free credit");
+//		System.out.println("recharge billed to client: " + (amount-credit));
 		credit=clientService.getCredit();
 		float amountToPay= provider.recharge(cellNumber, amount);
 		if (credit>0) {

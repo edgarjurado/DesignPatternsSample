@@ -42,18 +42,24 @@ public class TopUpService implements ITopupService {
 	@Override
 	public boolean recharge(String cellNumber, float amount, String company) {
 		
-		provider=new Provider(Companies.getProvider(company));
+		provider=getProvider(company);
+
+		recordRequest();
+		float amountBilled=provider.recharge(cellNumber, amount);
+		return amountBilled>-1;
+	}
+	
+	private IProvider getProvider(String company) {
+		IProvider provider=new Provider(Companies.getProvider(company));
 		if (code>-1) {
 			provider=new PromotionalProvider(provider, code);
 		}
 		
 		if (clientId>-1) {
 			provider=new RegisteredClientProvider(provider, clientId);
+			
 		}
-
-		recordRequest();
-		float amountBilled=provider.recharge(cellNumber, amount);
-		return amountBilled>-1;
+		return provider;
 	}
 		
 }
